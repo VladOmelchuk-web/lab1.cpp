@@ -21,7 +21,7 @@ Information* add_item(Information*& old_array, int& size);
 void print_item(const Information temp);
 void print_all(const Information* arr, const int size);
 void sort(Information*& arr, const int size);
-Information& find_item(Information*& arr, const int size);
+Information* find_item(Information*& arr, const int size);
 void find_all(const Information* arr, const int size);
 void change_item(Information*&, const int size);
 void delete_item(Information*&, int& size);
@@ -49,8 +49,14 @@ int main() {
             break;
         }
         case Information::action::Find: {
-            Information temp = find_item(container, array_size);
-            print_item(temp);
+            Information* temp = find_item(container, array_size);
+            if (temp != nullptr) {
+                print_item(*temp);
+            }
+            else
+            {
+                cout << "No element!" << endl;
+            }
             command = menu();
             break;
         }
@@ -202,7 +208,7 @@ void find_all(const Information* arr, const int size) {
     }
 }
 
-Information& find_item(Information*& arr, const int size) {
+Information* find_item(Information*& arr, const int size) {
     int dec = -1;
     cout << "Find by:"
         << "\n1. Title"
@@ -218,23 +224,24 @@ Information& find_item(Information*& arr, const int size) {
         {
         case 1: {
             if (arr[i].name == text)
-                return arr[i];
+                return &arr[i];
             break;
         }
         case 2: {
             if (arr[i].carrier_type == text)
-                return arr[i];
+                return &arr[i];
             break;
         }
         case 3: {
             if (arr[i].author == text)
-                return arr[i];
+                return &arr[i];
             break;
         }
         default:
             break;
         }
     }
+    return nullptr;
 }
 
 void change_item(Information*& arr, const int size) {
